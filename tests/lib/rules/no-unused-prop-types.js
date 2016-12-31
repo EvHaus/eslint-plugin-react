@@ -1428,6 +1428,25 @@ ruleTester.run('no-unused-prop-types', rule, {
         '};'
       ].join('\n'),
       parserOptions: parserOptions
+    }, {
+      // Ensure 'shipShapeProps' is enabled by default (Issue 819)
+      code: [
+        'class Hello extends React.Component {',
+        '  static propTypes = {',
+        '    arrayOfObjWithFoo: PropTypes.arrayOf(',
+        '      PropTypes.shape({ foo: PropTypes.string.isRequired })',
+        '    )',
+        '  }',
+        '  ',
+        '  render () {',
+        '    const fooItems = this.props.arrayOfObjWithFoo.map(objWithFoo => (',
+        '      <Item foo={objWithFoo.foo} />',
+        '    ));',
+        '  }',
+        '}'
+      ].join('\n'),
+      parser: 'babel-eslint',
+      parserOptions: parserOptions
     }
   ],
 
